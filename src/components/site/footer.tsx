@@ -1,0 +1,143 @@
+import { Link } from "@tanstack/react-router";
+import { brand } from "@/data/site";
+import { WhatsAppIcon } from "@/components/site/whatsapp";
+
+export function Footer() {
+  return (
+    <footer className="border-border/60 border-t">
+      <div className="mx-auto grid max-w-[1400px] gap-12 px-5 py-16 sm:px-8 lg:grid-cols-4">
+        {/* Brand column */}
+        <div>
+          <img
+            src="/brand/awaara-logo-white.svg"
+            alt="AWAARA"
+            className="h-8 w-auto"
+          />
+          <p className="text-muted-foreground mt-4 max-w-xs text-sm leading-relaxed">
+            Canada's Desi Entertainment Experience. Live concerts, DJ nights,
+            cultural experiences and unforgettable nights across Canada.
+          </p>
+        </div>
+
+        {/* Navigation */}
+        <nav aria-label="Footer navigation">
+          <p className="eyebrow mb-4">Explore</p>
+          <ul className="space-y-2.5 text-sm">
+            {[
+              { label: "Home",        hash: "top" },
+              { label: "Experiences", hash: "experiences" },
+              { label: "Artists",     hash: "artists" },
+              { label: "About",       hash: "about" },
+              { label: "Gallery",     hash: "gallery" },
+              { label: "FAQ",         hash: "faq" },
+              { label: "Contact",     hash: "contact" },
+            ].map((l) => (
+              <li key={l.label}>
+                <Link
+                  to="/"
+                  hash={l.hash}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {l.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+        {/* Social */}
+        <div>
+          <p className="eyebrow mb-4">Social</p>
+          <ul className="space-y-2.5 text-sm">
+            {[
+              { label: "Instagram", href: brand.instagram },
+              { label: "Facebook",  href: brand.facebook  },
+              { label: "TikTok",    href: brand.tiktok    },
+            ].map((s) => (
+              <li key={s.label}>
+                <a
+                  href={s.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+          <a
+            href={`https://wa.me/${brand.whatsappNumber}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-muted-foreground hover:text-foreground mt-6 inline-flex items-center gap-2 text-sm transition-colors"
+          >
+            <WhatsAppIcon className="h-4 w-4" /> WhatsApp
+          </a>
+
+          {/* Newsletter CTA */}
+          <div className="mt-8">
+            <p className="eyebrow mb-3">Stay in the loop</p>
+            <Link
+              to="/"
+              hash="newsletter"
+              className="bg-heat text-primary-foreground inline-block rounded-full px-6 py-2.5 text-[0.65rem] font-bold tracking-[0.2em] uppercase transition-transform duration-300 hover:scale-[1.04]"
+            >
+              Join the AWAARA List
+            </Link>
+          </div>
+        </div>
+
+        {/* Legal */}
+        <div>
+          <p className="eyebrow mb-4">Legal</p>
+          <ul className="space-y-2.5 text-sm">
+            <li>
+              <Link
+                to="/privacy-policy"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Privacy Policy
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/terms"
+                className="text-muted-foreground hover:text-foreground transition-colors"
+              >
+                Terms &amp; Conditions
+              </Link>
+            </li>
+          </ul>
+          <p className="text-muted-foreground mt-6 text-xs leading-relaxed">
+            {brand.email}
+            <br />
+            {brand.phone}
+          </p>
+        </div>
+      </div>
+
+      <div className="border-border/60 border-t">
+        <div className="text-muted-foreground mx-auto flex max-w-[1400px] flex-col items-center justify-between gap-2 px-5 py-6 text-xs sm:flex-row sm:px-8">
+          <p>
+            © {new Date().getFullYear()} {brand.name}. All rights reserved.
+          </p>
+          <p className="text-center tracking-[0.22em] uppercase">
+            Canada's Desi Entertainment Experience
+          </p>
+          <p className="text-muted-foreground/90 text-center text-[0.75rem] tracking-wide sm:text-[0.8125rem]">
+            Designed and Developed by{" "}
+            <a
+              href="https://www.ecliptixsolutions.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="hover:text-foreground transition-colors"
+            >
+              Ecliptix Solutions
+            </a>
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+}

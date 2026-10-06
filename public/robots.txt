@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+Disallow: /admin
+Disallow: /admin/
+Disallow: /private
+Disallow: /private/
+Disallow: /internal
+Disallow: /internal/
+Disallow: /api/private
+Disallow: /*?preview=
+Disallow: /*?debug=
+
+Sitemap: https://pulse-stage-canada.lovable.app/sitemap.xml
