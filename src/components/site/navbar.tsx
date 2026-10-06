@@ -7,9 +7,7 @@ import { events, activeEvents } from "@/data/site";
 const links = [
   { label: "Home",        to: "/", hash: "top" },
   { label: "Experiences", to: "/", hash: "experiences" },
-  { label: "Artists",     to: "/", hash: "artists" },
   { label: "About",       to: "/", hash: "about" },
-  { label: "Gallery",     to: "/", hash: "gallery" },
   { label: "FAQ",         to: "/", hash: "faq" },
   { label: "Contact",     to: "/", hash: "contact" },
 ] as const;

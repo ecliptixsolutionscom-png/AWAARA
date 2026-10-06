@@ -26,9 +26,7 @@ export function Footer() {
             {[
               { label: "Home",        hash: "top" },
               { label: "Experiences", hash: "experiences" },
-              { label: "Artists",     hash: "artists" },
               { label: "About",       hash: "about" },
-              { label: "Gallery",     hash: "gallery" },
               { label: "FAQ",         hash: "faq" },
               { label: "Contact",     hash: "contact" },
             ].map((l) => (

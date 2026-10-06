@@ -1,13 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { Navbar } from "@/components/site/navbar";
 import { Hero } from "@/components/site/hero";
-import { AwaaraExperienceSection, EventsSection } from "@/components/site/events-section";
+import { EventsSection } from "@/components/site/events-section";
 import { FeaturedEvent, ComingSoonSection } from "@/components/site/featured-event";
-import { ArtistsSection } from "@/components/site/artists-section";
 import {
   BrandStory,
   CitiesSection,
-  GallerySection,
   SocialStrip,
   BringAwaaraSection,
 } from "@/components/site/moments";
@@ -68,7 +66,6 @@ function Index() {
         {/* ── STATE A: No upcoming public events — evergreen brand mode ── */}
         {!hasActiveEvents && (
           <>
-            <AwaaraExperienceSection />
             <ComingSoonSection />
           </>
         )}
@@ -82,10 +79,8 @@ function Index() {
         )}
 
         {/* ── Always visible ── */}
-        <ArtistsSection />
         <BrandStory />
         <CitiesSection />
-        <GallerySection />
         <SocialStrip />
         <BringAwaaraSection />
         <VipSection />
