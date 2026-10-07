@@ -1,5 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import { ChevronDown, Star } from "lucide-react";
+import {
+  ChevronDown,
+  Star,
+  MapPin,
+  Disc3,
+  Music2,
+  Crown,
+  Sparkles,
+  RefreshCw,
+  type LucideIcon,
+} from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -20,7 +30,163 @@ import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { SocialLinksCompact } from "@/components/site/social-icons";
 import { trackEvent } from "@/lib/analytics";
 
-/* ---------------- VIP ---------------- */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* AWAARA SERVICES SECTION                                                 */
+/* ─────────────────────────────────────────────────────────────────────── */
+
+type ServiceItem = {
+  num: string;
+  title: string;
+  description: string;
+  Icon: LucideIcon;
+};
+
+const awaaraServices: ServiceItem[] = [
+  {
+    num: "01",
+    title: "Elitist Venues",
+    description:
+      "For an exclusive experience at every party, we choose the best venues around the city.",
+    Icon: MapPin,
+  },
+  {
+    num: "02",
+    title: "Bollywood Night",
+    description:
+      "Put on your party shoes and groove to the best of Bollywood tunes.",
+    Icon: Disc3,
+  },
+  {
+    num: "03",
+    title: "Bollywood in the House",
+    description:
+      "Making nights crazier with the best DJs playing Bollywood, House, Commercial and Top 40 Hits is our most treasured task.",
+    Icon: Music2,
+  },
+  {
+    num: "04",
+    title: "VIP Service",
+    description:
+      "We have the most suitable VIP/Birthday packages to turn your private parties, birthdays and other occasions into a carnival.",
+    Icon: Crown,
+  },
+  {
+    num: "05",
+    title: "Branded Events",
+    description:
+      "Let us create a parallel universe for the people who go wild for great music and the most happening bunch of party animals.",
+    Icon: Sparkles,
+  },
+  {
+    num: "06",
+    title: "We Keep Coming Back!",
+    description: "We will make you groove at our parties all round.",
+    Icon: RefreshCw,
+  },
+];
+
+export function AwaaraServicesSection() {
+  return (
+    <section id="services" className="scroll-mt-24 py-20 sm:py-28">
+
+      {/* ── Heading ── */}
+      <div className="mx-auto max-w-[1400px] px-5 sm:px-8">
+        <Reveal>
+          <p className="eyebrow mb-5 tracking-[0.3em]">Our Experiences</p>
+          <h2 className="text-[clamp(2.8rem,10vw,5.5rem)] leading-[0.88] font-extrabold uppercase">
+            Our
+            <br />
+            <span className="text-heat">Services.</span>
+          </h2>
+        </Reveal>
+
+        {/* Tagline — visually prominent, clearly separated */}
+        <Reveal delay={80}>
+          <p className="mt-7 mb-1 max-w-2xl border-l-2 border-primary pl-5 text-lg font-light italic leading-snug tracking-wide text-foreground/90 sm:text-xl lg:text-2xl">
+            Where stories wander and memories stay.
+          </p>
+        </Reveal>
+      </div>
+
+      {/* ── Grid — no outer border box, items divided by internal lines ── */}
+      <div className="mx-auto mt-16 max-w-[1400px] px-5 sm:px-8">
+        {/* Top border of entire grid */}
+        <div className="border-t border-border/50" />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {awaaraServices.map((s, i) => {
+            const isLastInLgRow = (i + 1) % 3 === 0;
+            const isLastInSmRow = (i + 1) % 2 === 0;
+            const isInFirstLgRow = i < 3;
+
+            return (
+              <Reveal key={s.title} delay={i * 55} as="article">
+                <div
+                  className={[
+                    // base
+                    "group relative flex flex-col gap-7 bg-background px-6 py-10 transition-colors duration-300 hover:bg-surface/40",
+                    "sm:px-8 sm:py-12",
+                    // bottom border for all cells (row separator)
+                    "border-b border-border/50",
+                    // right border — sm: every even-index (not last in 2-col row)
+                    !isLastInSmRow ? "sm:border-r sm:border-border/50" : "",
+                    // right border — lg: override sm, every 3rd is NOT right-bordered
+                    isLastInLgRow
+                      ? "lg:border-r-0"
+                      : "lg:border-r lg:border-border/50",
+                    // last row on lg: remove bottom border so grid ends cleanly
+                    !isInFirstLgRow && i >= 3 ? "lg:border-b-0" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  {/* Hover: accent bar slides in from left at top */}
+                  <div
+                    className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-primary to-orange-400 transition-transform duration-500 ease-out group-hover:scale-x-100"
+                    aria-hidden="true"
+                  />
+
+                  {/* Icon + number row */}
+                  <div className="flex items-start justify-between gap-4">
+                    {/* Icon box */}
+                    <span
+                      className="text-heat inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-sm border border-border/50 bg-surface/40 transition-all duration-300 group-hover:scale-110 group-hover:border-primary/60 group-hover:bg-surface/80"
+                      aria-hidden="true"
+                    >
+                      <s.Icon strokeWidth={1.25} className="h-6 w-6" />
+                    </span>
+
+                    {/* Service number — editorial watermark, top-right */}
+                    <span
+                      className="font-display select-none pt-1 text-4xl font-extrabold tabular-nums leading-none text-foreground/20 transition-colors duration-300 group-hover:text-foreground/40"
+                      aria-hidden="true"
+                    >
+                      {s.num}
+                    </span>
+                  </div>
+
+                  {/* Title + description */}
+                  <div className="flex flex-col gap-3">
+                    <h3 className="font-display text-base font-extrabold uppercase leading-tight tracking-[0.07em] sm:text-[1.05rem]">
+                      {s.title}
+                    </h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed sm:text-[0.9375rem]">
+                      {s.description}
+                    </p>
+                  </div>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* VIP                                                                     */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 export function VipSection() {
   return (
@@ -87,7 +253,9 @@ export function VipSection() {
   );
 }
 
-/* ---------------- Private / corporate ---------------- */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Private / corporate                                                     */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 export function PrivateEventsSection() {
   return (
@@ -135,7 +303,9 @@ export function PrivateEventsSection() {
   );
 }
 
-/* ---------------- Testimonials ---------------- */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Testimonials                                                            */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 export function TestimonialsSection() {
   const [i, setI] = useState(1);
@@ -196,67 +366,70 @@ export function TestimonialsSection() {
               }
             }}
           >
-          <div
-            className="flex"
-            style={{
-              transform: `translateX(-${i * 100}%)`,
-              transition: transition && !reducedMotion ? "transform 600ms ease-in-out" : "none",
-            }}
-            onTransitionEnd={() => {
-              if (i === testimonials.length + 1) {
-                setTransition(false);
-                setI(1);
-                requestAnimationFrame(() => setTransition(true));
-              }
-              if (i === 0) {
-                setTransition(false);
-                setI(testimonials.length);
-                requestAnimationFrame(() => setTransition(true));
-              }
-            }}
-          >
-            {slides.map((t, slide) => (
-              <div
-                key={`${t.name}-${slide}`}
-                className="min-w-full shrink-0 px-1"
-                aria-hidden={slide !== i}
-              >
-                <p className="text-gold flex justify-center gap-1">
-                  {Array.from({ length: 5 }, (_, s) => (
-                    <Star key={s} className="h-4 w-4 fill-current" />
-                  ))}
-                </p>
-                <blockquote className="mt-6 text-xl leading-relaxed font-medium sm:text-2xl">
-                  "{t.quote}"
-                </blockquote>
-                <p className="eyebrow mt-6">
-                  {t.name} • {t.city} • {t.event}
-                </p>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8 flex justify-center gap-2">
-            {testimonials.map((_, d) => (
-              <button
-                key={d}
-                type="button"
-                aria-label={`Show testimonial ${d + 1}`}
-                onClick={() => goTo(d + 1)}
-                className={
-                  d === active
-                    ? "bg-heat h-3 w-8 rounded-full transition-all"
-                    : "bg-surface-2 h-3 w-3 rounded-full transition-all"
+            <div
+              className="flex"
+              style={{
+                transform: `translateX(-${i * 100}%)`,
+                transition: transition && !reducedMotion ? "transform 600ms ease-in-out" : "none",
+              }}
+              onTransitionEnd={() => {
+                if (i === testimonials.length + 1) {
+                  setTransition(false);
+                  setI(1);
+                  requestAnimationFrame(() => setTransition(true));
                 }
-              />
-            ))}
-          </div>
+                if (i === 0) {
+                  setTransition(false);
+                  setI(testimonials.length);
+                  requestAnimationFrame(() => setTransition(true));
+                }
+              }}
+            >
+              {slides.map((t, slide) => (
+                <div
+                  key={`${t.name}-${slide}`}
+                  className="min-w-full shrink-0 px-1"
+                  aria-hidden={slide !== i}
+                >
+                  <p className="text-gold flex justify-center gap-1">
+                    {Array.from({ length: 5 }, (_, s) => (
+                      <Star key={s} className="h-4 w-4 fill-current" />
+                    ))}
+                  </p>
+                  <blockquote className="mt-6 text-xl leading-relaxed font-medium sm:text-2xl">
+                    "{t.quote}"
+                  </blockquote>
+                  <p className="eyebrow mt-6">
+                    {t.name} • {t.city} • {t.event}
+                  </p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 flex justify-center gap-2">
+              {testimonials.map((_, d) => (
+                <button
+                  key={d}
+                  type="button"
+                  aria-label={`Show testimonial ${d + 1}`}
+                  onClick={() => goTo(d + 1)}
+                  className={
+                    d === active
+                      ? "bg-heat h-3 w-8 rounded-full transition-all"
+                      : "bg-surface-2 h-3 w-3 rounded-full transition-all"
+                  }
+                />
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>
     </section>
   );
 }
-/* ---------------- Newsletter / Waitlist ---------------- */
+
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Newsletter / Waitlist                                                   */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 export function NewsletterSection() {
   const [email, setEmail] = useState("");
@@ -268,7 +441,6 @@ export function NewsletterSection() {
       className="mx-auto max-w-[1400px] scroll-mt-24 px-5 py-20 sm:px-8 sm:py-28"
     >
       <Reveal className="border-border/70 from-surface-2 relative mx-auto max-w-3xl overflow-hidden rounded-xl border bg-gradient-to-b to-transparent p-8 text-center sm:p-14">
-        {/* Subtle background glow */}
         <div
           className="pointer-events-none absolute inset-0 opacity-[0.07]"
           style={{
@@ -335,7 +507,9 @@ export function NewsletterSection() {
   );
 }
 
-/* ---------------- FAQ ---------------- */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* FAQ                                                                     */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 export function FaqSection() {
   return (
@@ -359,7 +533,9 @@ export function FaqSection() {
   );
 }
 
-/* ---------------- Contact ---------------- */
+/* ─────────────────────────────────────────────────────────────────────── */
+/* Contact                                                                 */
+/* ─────────────────────────────────────────────────────────────────────── */
 
 const inputCls =
   "border-input bg-background/60 placeholder:text-muted-foreground/60 w-full rounded-lg border px-4 py-3.5 text-sm outline-none focus:ring-1 focus:ring-current";
@@ -412,9 +588,7 @@ export function ContactSection() {
               <p className="text-heat font-display text-4xl font-extrabold uppercase">
                 Inquiry not sent yet.
               </p>
-              <p className="text-muted-foreground mt-4">
-                {status}
-              </p>
+              <p className="text-muted-foreground mt-4">{status}</p>
               <button
                 type="button"
                 onClick={() => setStatus("")}
@@ -463,14 +637,16 @@ export function ContactSection() {
                 <input id="contactCity" name="city" placeholder="City" className={inputCls} />
               </div>
               <label className="sr-only" htmlFor="contactInquiry">Inquiry type</label>
-              <select id="contactInquiry" name="inquiryType" required defaultValue="" className={inputCls}>
-                <option value="" disabled>
-                  Inquiry Type
-                </option>
+              <select
+                id="contactInquiry"
+                name="inquiryType"
+                required
+                defaultValue=""
+                className={inputCls}
+              >
+                <option value="" disabled>Inquiry Type</option>
                 {inquiryTypes.map((t) => (
-                  <option key={t} value={t}>
-                    {t}
-                  </option>
+                  <option key={t} value={t}>{t}</option>
                 ))}
               </select>
               <label className="sr-only" htmlFor="contactMessage">Message</label>

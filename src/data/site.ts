@@ -356,13 +356,7 @@ export const stats = [
 ];
 
 export const cities = [
-  { name: "Toronto", events: 34 },
-  { name: "Vancouver", events: 21 },
-  { name: "Calgary", events: 16 },
-  { name: "Edmonton", events: 12 },
-  { name: "Ottawa", events: 9 },
-  { name: "Montreal", events: 8 },
-  { name: "Winnipeg", events: 5 },
+  { name: "Calgary", events: 0 },
 ];
 
 export const gallery = [

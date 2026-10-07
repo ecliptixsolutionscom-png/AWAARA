@@ -10,6 +10,7 @@ import {
   BringAwaaraSection,
 } from "@/components/site/moments";
 import {
+  AwaaraServicesSection,
   VipSection,
   PrivateEventsSection,
   TestimonialsSection,
@@ -82,6 +83,7 @@ function Index() {
         <BrandStory />
         <CitiesSection />
         <SocialStrip />
+        <AwaaraServicesSection />
         <BringAwaaraSection />
         <VipSection />
         <PrivateEventsSection />
