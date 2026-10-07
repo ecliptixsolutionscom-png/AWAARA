@@ -17,9 +17,9 @@ export const brand = {
   name: "AWAARA",
   tagline: "Canada's Desi Entertainment Experience",
   // PLACEHOLDER — replace with the real WhatsApp business number (digits only, incl. country code)
-  whatsappNumber: "14036051435",
+  whatsappNumber: "13682994658",
   email: "info@awaara.live",
-  phone: "+1 (403) 605-1435",
+  phone: "+1 (368) 299-4658",
   instagram: "https://instagram.com/",
   instagramHandle: "@awaara.live",
   facebook: "https://facebook.com/",
