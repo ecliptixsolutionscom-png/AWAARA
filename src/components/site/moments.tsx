@@ -1,41 +1,8 @@
-import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "lucide-react";
-import { cities, gallery, stats, brand } from "@/data/site";
-import { Reveal, SectionHeading, useInView } from "@/components/site/reveal";
+import { cities, gallery, brand } from "@/data/site";
+import { Reveal, SectionHeading } from "@/components/site/reveal";
 import { whatsappLink, whatsappMessages } from "@/data/site";
 import event1 from "@/assets/event-1.jpg";
-
-/* ---------------- Brand story + animated counters ---------------- */
-
-function Counter({ value, suffix }: { value: number; suffix: string }) {
-  const { ref, inView } = useInView<HTMLDivElement>();
-  const [n, setN] = useState(0);
-  const started = useRef(false);
-
-  useEffect(() => {
-    if (!inView || started.current) return;
-    started.current = true;
-    const dur = 1600;
-    const t0 = performance.now();
-    let raf = 0;
-    const tick = (t: number) => {
-      const p = Math.min(1, (t - t0) / dur);
-      setN(Math.round(value * (1 - Math.pow(1 - p, 3))));
-      if (p < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [inView, value]);
-
-  return (
-    <div ref={ref}>
-      <p className="font-display text-heat text-4xl leading-none font-extrabold tabular-nums sm:text-5xl xl:text-6xl">
-        {n}
-        {suffix}
-      </p>
-    </div>
-  );
-}
 
 export function BrandStory() {
   return (
@@ -97,16 +64,6 @@ export function BrandStory() {
               ))}
             </div>
 
-            <div className="mt-10 grid grid-cols-2 gap-x-10 gap-y-8 sm:grid-cols-4 lg:gap-x-12">
-              {stats.map((s) => (
-                <div key={s.label} className="min-w-0">
-                  <Counter value={s.value} suffix={s.suffix} />
-                  <p className="text-muted-foreground mt-3 text-[0.65rem] tracking-[0.22em] uppercase">
-                    {s.label}
-                  </p>
-                </div>
-              ))}
-            </div>
           </Reveal>
         </div>
       </div>
