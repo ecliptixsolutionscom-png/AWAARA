@@ -111,14 +111,16 @@ export function Hero() {
         className="relative mx-auto flex min-h-[100svh] max-w-[1400px] flex-col justify-end px-5 pt-28 pb-12 sm:px-8 sm:pt-32 sm:pb-16"
         style={{ zIndex: 4 }}
       >
-        {/* Slide accent label — changes with each slide */}
-        <p
-          key={current}
-          className="eyebrow text-foreground/70 mb-6"
-          style={{ animation: `hero-fade-in ${FADE_DURATION}ms ease-in-out forwards` }}
-        >
-          {heroSlides[current]?.accent}
-        </p>
+        {/* Slide accent label — only shown when the slide has an accent string */}
+        {heroSlides[current]?.accent && (
+          <p
+            key={current}
+            className="eyebrow text-foreground/70 mb-6"
+            style={{ animation: `hero-fade-in ${FADE_DURATION}ms ease-in-out forwards` }}
+          >
+            {heroSlides[current]?.accent}
+          </p>
+        )}
 
         <h1 className="max-w-4xl text-[clamp(3rem,15vw,5rem)] leading-[0.86] font-extrabold tracking-tight uppercase sm:text-8xl lg:text-[8.5rem]">
           The night

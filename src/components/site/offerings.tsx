@@ -1,15 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import {
-  ChevronDown,
-  Star,
-  MapPin,
-  Disc3,
-  Music2,
-  Crown,
-  Sparkles,
-  RefreshCw,
-  type LucideIcon,
-} from "lucide-react";
+import { ChevronDown, Star } from "lucide-react";
 import {
   Accordion,
   AccordionContent,
@@ -34,11 +24,21 @@ import { trackEvent } from "@/lib/analytics";
 /* AWAARA SERVICES SECTION                                                 */
 /* ─────────────────────────────────────────────────────────────────────── */
 
+import heroImg    from "@/assets/hero.jpg";
+import event1Img  from "@/assets/event-1.jpg";
+import event2Img  from "@/assets/event-2.jpg";
+import event3Img  from "@/assets/event-3.jpg";
+import event4Img  from "@/assets/event-4.jpg";
+import vipImgSrc  from "@/assets/vip.jpg";
+
 type ServiceItem = {
   num: string;
   title: string;
   description: string;
-  Icon: LucideIcon;
+  image: string;
+  imageAlt: string;
+  /** focal point for object-position */
+  imagePos?: string;
 };
 
 const awaaraServices: ServiceItem[] = [
@@ -47,41 +47,53 @@ const awaaraServices: ServiceItem[] = [
     title: "Elitist Venues",
     description:
       "For an exclusive experience at every party, we choose the best venues around the city.",
-    Icon: MapPin,
+    image: heroImg,
+    imageAlt: "Premium nightclub interior with dramatic red stage lighting and crowd",
+    imagePos: "center center",
   },
   {
     num: "02",
     title: "Bollywood Night",
     description:
       "Put on your party shoes and groove to the best of Bollywood tunes.",
-    Icon: Disc3,
+    image: event2Img,
+    imageAlt: "Bollywood vocalist performing live on stage with atmospheric lighting",
+    imagePos: "center top",
   },
   {
     num: "03",
     title: "Bollywood in the House",
     description:
       "Making nights crazier with the best DJs playing Bollywood, House, Commercial and Top 40 Hits is our most treasured task.",
-    Icon: Music2,
+    image: event1Img,
+    imageAlt: "DJ performing at a club with packed dancefloor and laser rigs",
+    imagePos: "center top",
   },
   {
     num: "04",
     title: "VIP Service",
     description:
       "We have the most suitable VIP/Birthday packages to turn your private parties, birthdays and other occasions into a carnival.",
-    Icon: Crown,
+    image: vipImgSrc,
+    imageAlt: "VIP lounge with premium bottle service and warm atmospheric lighting",
+    imagePos: "center center",
   },
   {
     num: "05",
     title: "Branded Events",
     description:
       "Let us create a parallel universe for the people who go wild for great music and the most happening bunch of party animals.",
-    Icon: Sparkles,
+    image: event3Img,
+    imageAlt: "Large-scale branded event with crowd and city skyline at night",
+    imagePos: "center top",
   },
   {
     num: "06",
     title: "We Keep Coming Back!",
     description: "We will make you groove at our parties all round.",
-    Icon: RefreshCw,
+    image: event4Img,
+    imageAlt: "Energetic nightlife crowd dancing under confetti and colourful lights",
+    imagePos: "center top",
   },
 ];
 
@@ -108,76 +120,86 @@ export function AwaaraServicesSection() {
         </Reveal>
       </div>
 
-      {/* ── Grid — no outer border box, items divided by internal lines ── */}
+      {/* ── Image-backed card grid ── */}
       <div className="mx-auto mt-16 max-w-[1400px] px-5 sm:px-8">
-        {/* Top border of entire grid */}
-        <div className="border-t border-border/50" />
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {awaaraServices.map((s, i) => (
+            <Reveal key={s.title} delay={i * 55} as="article">
+              {/*
+               * Card — full relative container.
+               * Layer order (z-index):
+               *   1 = background image
+               *   2 = dark cinematic overlay
+               *   3 = content
+               */}
+              <div className="group relative min-h-[320px] overflow-hidden rounded-sm border border-border/40 transition-all duration-500 hover:-translate-y-1 hover:border-border/80 hover:shadow-[0_0_40px_oklch(0.58_0.22_26_/_0.15)] sm:min-h-[360px]">
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          {awaaraServices.map((s, i) => {
-            const isLastInLgRow = (i + 1) % 3 === 0;
-            const isLastInSmRow = (i + 1) % 2 === 0;
-            const isInFirstLgRow = i < 3;
+                {/* Layer 1 — background image */}
+                <img
+                  src={s.image}
+                  alt={s.imageAlt}
+                  loading="lazy"
+                  className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-[1.06]"
+                  style={{ objectPosition: s.imagePos ?? "center center", zIndex: 1 }}
+                />
 
-            return (
-              <Reveal key={s.title} delay={i * 55} as="article">
+                {/* Layer 2a — permanent dark base overlay so text is always readable */}
                 <div
-                  className={[
-                    // base
-                    "group relative flex flex-col gap-7 bg-background px-6 py-10 transition-colors duration-300 hover:bg-surface/40",
-                    "sm:px-8 sm:py-12",
-                    // bottom border for all cells (row separator)
-                    "border-b border-border/50",
-                    // right border — sm: every even-index (not last in 2-col row)
-                    !isLastInSmRow ? "sm:border-r sm:border-border/50" : "",
-                    // right border — lg: override sm, every 3rd is NOT right-bordered
-                    isLastInLgRow
-                      ? "lg:border-r-0"
-                      : "lg:border-r lg:border-border/50",
-                    // last row on lg: remove bottom border so grid ends cleanly
-                    !isInFirstLgRow && i >= 3 ? "lg:border-b-0" : "",
-                  ]
-                    .filter(Boolean)
-                    .join(" ")}
+                  className="absolute inset-0"
+                  style={{
+                    zIndex: 2,
+                    background:
+                      "linear-gradient(to bottom, rgba(8,6,6,0.52) 0%, rgba(8,6,6,0.72) 55%, rgba(8,6,6,0.92) 100%)",
+                  }}
+                  aria-hidden="true"
+                />
+
+                {/* Layer 2b — red/orange atmospheric vignette, intensifies on hover */}
+                <div
+                  className="absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                  style={{
+                    zIndex: 2,
+                    background:
+                      "radial-gradient(ellipse at 50% 110%, oklch(0.58 0.22 26 / 0.28) 0%, transparent 65%)",
+                  }}
+                  aria-hidden="true"
+                />
+
+                {/* Layer 2c — top accent bar slides in on hover */}
+                <div
+                  className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-primary to-orange-400 transition-transform duration-500 ease-out group-hover:scale-x-100"
+                  style={{ zIndex: 3 }}
+                  aria-hidden="true"
+                />
+
+                {/* Layer 3 — content */}
+                <div
+                  className="relative flex h-full min-h-[320px] flex-col justify-between p-7 sm:min-h-[360px] sm:p-8"
+                  style={{ zIndex: 3 }}
                 >
-                  {/* Hover: accent bar slides in from left at top */}
-                  <div
-                    className="absolute inset-x-0 top-0 h-[2px] origin-left scale-x-0 bg-gradient-to-r from-primary to-orange-400 transition-transform duration-500 ease-out group-hover:scale-x-100"
-                    aria-hidden="true"
-                  />
-
-                  {/* Icon + number row */}
-                  <div className="flex items-start justify-between gap-4">
-                    {/* Icon box */}
+                  {/* Number — top right, large editorial watermark */}
+                  <div className="flex justify-end">
                     <span
-                      className="text-heat inline-flex h-14 w-14 shrink-0 items-center justify-center rounded-sm border border-border/50 bg-surface/40 transition-all duration-300 group-hover:scale-110 group-hover:border-primary/60 group-hover:bg-surface/80"
-                      aria-hidden="true"
-                    >
-                      <s.Icon strokeWidth={1.25} className="h-6 w-6" />
-                    </span>
-
-                    {/* Service number — editorial watermark, top-right */}
-                    <span
-                      className="font-display select-none pt-1 text-4xl font-extrabold tabular-nums leading-none text-foreground/20 transition-colors duration-300 group-hover:text-foreground/40"
+                      className="font-display select-none text-5xl font-extrabold tabular-nums leading-none text-white/20 transition-colors duration-300 group-hover:text-white/40"
                       aria-hidden="true"
                     >
                       {s.num}
                     </span>
                   </div>
 
-                  {/* Title + description */}
+                  {/* Title + description — pinned to bottom */}
                   <div className="flex flex-col gap-3">
-                    <h3 className="font-display text-base font-extrabold uppercase leading-tight tracking-[0.07em] sm:text-[1.05rem]">
+                    <h3 className="font-display text-lg font-extrabold uppercase leading-tight tracking-[0.07em] text-white sm:text-xl">
                       {s.title}
                     </h3>
-                    <p className="text-muted-foreground text-sm leading-relaxed sm:text-[0.9375rem]">
+                    <p className="text-sm leading-relaxed text-white/75 sm:text-[0.9375rem]">
                       {s.description}
                     </p>
                   </div>
                 </div>
-              </Reveal>
-            );
-          })}
+              </div>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>

@@ -413,7 +413,7 @@ export const heroSlides = [
   {
     image: heroImg,
     alt: "Concert crowd with hands raised under red stage lights at a Toronto nightclub",
-    accent: "Toronto · Live Events",
+    accent: "",
     heroPosition: "center center",
   },
   {
