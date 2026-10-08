@@ -1,10 +1,13 @@
 import { Link } from "@tanstack/react-router";
 import { trackEvent } from "@/lib/analytics";
-import { ArrowUpRight, CalendarDays, MapPin } from "lucide-react";
+import { ArrowUpRight, CalendarDays, Clock, MapPin } from "lucide-react";
 import type { EventItem } from "@/data/site";
 
-/** Renders the correct GET TICKETS CTA depending on whether the event
- *  has an external ticketUrl configured or uses the internal checkout. */
+/**
+ * Renders the correct CTA button depending on whether the event has an
+ * external ticketUrl (opens Eventbrite in new tab) or uses internal checkout.
+ * Label is "Book Tickets" for external providers, "Get Tickets" for internal.
+ */
 function GetTicketsCta({ event, className }: { event: EventItem; className: string }) {
   if (event.ticketUrl) {
     return (
@@ -15,7 +18,7 @@ function GetTicketsCta({ event, className }: { event: EventItem; className: stri
         onClick={() => trackEvent("click_get_tickets", { source: "event_card", event: event.slug })}
         className={className}
       >
-        Get Tickets
+        Book Tickets
       </a>
     );
   }
@@ -42,50 +45,62 @@ export const formatDate = (iso: string) =>
 export function EventCard({ event }: { event: EventItem }) {
   return (
     <article className="group border-border/70 bg-surface relative overflow-hidden rounded-xl border">
+      {/* Poster / flyer image — full portrait aspect, object-contain so artwork
+          is never cropped (letter-boxed against dark background if needed) */}
       <Link
         to="/events/$slug"
         params={{ slug: event.slug }}
         className="block"
         aria-label={`${event.title} — details`}
       >
-        <div className="relative aspect-[4/5] overflow-hidden">
+        <div className="relative aspect-[3/4] overflow-hidden bg-background">
           <img
             src={event.image}
             alt={`${event.title} event poster`}
             loading="lazy"
-            width={1024}
-            height={1280}
-            className="h-full w-full object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
+            width={900}
+            height={1200}
+            className="h-full w-full object-contain transition-transform duration-[900ms] ease-out group-hover:scale-[1.03]"
           />
-          <div className="fade-bottom absolute inset-0" />
-          <span className="bg-background/70 absolute top-4 left-4 max-w-[calc(100%-2rem)] rounded-full border px-3 py-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase backdrop-blur-md">
+          {/* Very subtle bottom fade so meta text below reads well */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background/60 to-transparent" />
+
+          {/* Category badge — top left */}
+          <span className="bg-background/70 absolute top-4 left-4 rounded-full border px-3 py-1 text-[0.65rem] font-semibold tracking-[0.18em] uppercase backdrop-blur-md">
             {event.category}
           </span>
-          <span className="bg-heat text-primary-foreground absolute top-12 left-4 rounded-full px-3 py-1 text-[0.65rem] font-bold tracking-[0.16em] uppercase min-[420px]:top-4 min-[420px]:right-4 min-[420px]:left-auto">
+
+          {/* Status badge — top right */}
+          <span className="bg-heat text-primary-foreground absolute top-4 right-4 rounded-full px-3 py-1 text-[0.65rem] font-bold tracking-[0.16em] uppercase">
             {event.status}
           </span>
-
-          <div className="absolute inset-x-0 bottom-0 p-5">
-            <h3 className="text-2xl leading-tight font-extrabold uppercase transition-transform duration-500 group-hover:-translate-y-1">
-              {event.title}
-            </h3>
-            <p className="text-muted-foreground mt-2 flex flex-wrap items-center gap-x-4 gap-y-1 text-xs">
-              <span className="inline-flex items-center gap-1.5">
-                <CalendarDays className="h-3.5 w-3.5" /> {formatDate(event.date)}
-              </span>
-              <span className="inline-flex items-center gap-1.5">
-                <MapPin className="h-3.5 w-3.5" /> {event.city} • {event.venue}
-              </span>
-            </p>
-          </div>
         </div>
       </Link>
 
+      {/* Event meta */}
       <div className="p-5">
-        <p className="text-muted-foreground line-clamp-2 text-sm leading-relaxed">
-          {event.description}
-        </p>
-        <p className="eyebrow mt-4">{event.artists.join(" • ")}</p>
+        <h3 className="text-xl font-extrabold uppercase leading-tight">
+          {event.title}
+        </h3>
+
+        <div className="text-muted-foreground mt-3 flex flex-col gap-1.5 text-xs">
+          <span className="inline-flex items-center gap-1.5">
+            <CalendarDays className="h-3.5 w-3.5 shrink-0" />
+            {formatDate(event.date)}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <Clock className="h-3.5 w-3.5 shrink-0" />
+            {event.time}
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <MapPin className="h-3.5 w-3.5 shrink-0" />
+            {event.venue}, {event.city}
+          </span>
+        </div>
+
+        <p className="eyebrow mt-3">{event.artists.join(" × ")}</p>
+
+        {/* CTA row */}
         <div className="mt-5 flex items-center gap-3">
           <GetTicketsCta
             event={event}
@@ -95,7 +110,7 @@ export function EventCard({ event }: { event: EventItem }) {
             to="/events/$slug"
             params={{ slug: event.slug }}
             aria-label={`View ${event.title} details`}
-            className="border-border/70 hover:bg-surface-2 flex h-11 w-11 items-center justify-center rounded-full border transition-colors"
+            className="border-border/70 hover:bg-surface-2 flex h-11 w-11 shrink-0 items-center justify-center rounded-full border transition-colors"
           >
             <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
           </Link>

@@ -3,6 +3,7 @@ import event1 from "@/assets/event-1.jpg";
 import event2 from "@/assets/event-2.jpg";
 import event3 from "@/assets/event-3.jpg";
 import event4 from "@/assets/event-4.jpg";
+import bollywoodBash from "@/assets/bollywood-bash.jpg";
 import artist1 from "@/assets/artist-1.jpg";
 import artist2 from "@/assets/artist-2.jpg";
 import artist3 from "@/assets/artist-3.jpg";
@@ -173,6 +174,36 @@ const baseTickets: TicketTier[] = [
 
 
 export const events: EventItem[] = [
+  /* ── REAL CONFIRMED EVENT ──────────────────────────────────────────── */
+  {
+    id: "bollywood-bash-oct-2026",
+    title: "AWAARA Presents: Bollywood Bash",
+    slug: "bollywood-bash",
+    date: "2026-10-11",
+    time: "9:00 PM onwards",
+    city: "Calgary",
+    province: "Alberta",
+    country: "Canada",
+    venue: "Ice Lounge",
+    address: "850 16 Ave SW, Calgary, AB T2R 0S9",
+    category: "Bollywood",
+    description:
+      "The long weekend just got louder. AWAARA brings Bollywood Hits, Desi Beats and all-night energy to Ice Lounge, Calgary.",
+    longDescription:
+      "DJ Sandy and DJ Guri take over Ice Lounge for a night of Bollywood Hits, Desi Beats and Commercial Top 40s. Dress up, show up and let the long weekend do the rest. Tickets available on Eventbrite — do not miss this one.",
+    image: bollywoodBash,
+    artists: ["DJ Sandy", "DJ Guri"],
+    ticketUrl:
+      "https://www.eventbrite.ca/e/awaara-presents-bollywood-bash-tickets-2003091421363?aff=oddtdtcreator",
+    status: "On Sale",
+    featured: true,
+    dressCode: "Smart night out.",
+    ageRequirement: "18+ with valid government photo ID",
+    tickets: [],        // External ticketing via Eventbrite — no internal tiers needed
+    heroImage: bollywoodBash,
+    heroPosition: "center top",
+  },
+  /* ── PLACEHOLDER CATALOGUE (not active — kept for dev/routing only) ── */
   {
     id: "1",
     title: "Ignite the Night",
@@ -188,12 +219,12 @@ export const events: EventItem[] = [
     description:
       "Canada's biggest desi club night returns with a triple-deck takeover, laser rigs and a sound system built for bass.",
     longDescription:
-      "Three rooms, three sounds, one night. Ignite the Night brings together Toronto's sharpest desi selectors for a warehouse takeover with a full laser and CO2 production. Expect Punjabi anthems on the main floor, Bollywood throwbacks in room two and Afro-desi fusion on the terrace.",
+      "Three rooms, three sounds, one night. Ignite the Night brings together Toronto's sharpest desi selectors for a warehouse takeover with a full laser and CO2 production.",
     image: event1,
     artists: ["DJ RAAVI", "Simar Kaur", "Noor Bains"],
     ticketUrl: "",
     status: "Selling Fast",
-    featured: true,
+    featured: false,
     dressCode: "Smart night out. No athletic wear.",
     ageRequirement: "19+ with valid government photo ID",
     tickets: baseTickets,
@@ -215,7 +246,7 @@ export const events: EventItem[] = [
     description:
       "A full live band, dhol section and a headline vocalist bringing folk and modern Punjabi together on one stage.",
     longDescription:
-      "Pind Sessions is our live concert series built around Punjabi songwriting. A ten-piece band, a dhol section and a headline vocalist perform a career-spanning set, followed by an after-party in the upper lounge.",
+      "Pind Sessions is our live concert series built around Punjabi songwriting.",
     image: event2,
     artists: ["Noor Bains", "The Pind Collective"],
     ticketUrl: "",
@@ -241,7 +272,7 @@ export const events: EventItem[] = [
     description:
       "Sunset to skyline. Open-air decks, a golden-hour set and the city lit up behind the DJ booth.",
     longDescription:
-      "Our summer rooftop series takes over one of the city's best terraces. Golden-hour house, a desi-fusion peak-time set and a skyline you'll be posting all weekend.",
+      "Our summer rooftop series takes over one of the city's best terraces.",
     image: event3,
     artists: ["DJ RAAVI", "Kabir Sound System"],
     ticketUrl: "",
@@ -267,7 +298,7 @@ export const events: EventItem[] = [
     description:
       "Gold, velvet and confetti. A themed Bollywood ball with live percussion, dancers and a midnight showcase.",
     longDescription:
-      "A themed ballroom night with masks, live percussion, a choreographed dance showcase at midnight and a soundtrack running from 90s Bollywood to today's chart-toppers.",
+      "A themed ballroom night with masks, live percussion and a choreographed dance showcase at midnight.",
     image: event4,
     artists: ["Simar Kaur", "DJ Meher"],
     ticketUrl: "",
@@ -281,15 +312,17 @@ export const events: EventItem[] = [
 ];
 
 /**
- * ACTIVE EVENTS — the subset of events currently being promoted.
+ * ACTIVE EVENTS — the subset of events currently being promoted on the website.
  *
- * Set this to an empty array to enter EVERGREEN MODE (no upcoming events shown).
- * Populate with real confirmed events to enter EVENT MODE.
+ * Add confirmed real events here to enter EVENT MODE (events grid + featured section shown).
+ * Set to [] to return to EVERGREEN/coming-soon mode.
  *
- * The `events` array above is the full catalogue and is kept for historical /
- * event-detail page purposes regardless of this setting.
+ * Each event must have a unique slug and a ticketUrl pointing to the
+ * relevant Eventbrite (or other provider) page for that specific event.
  */
-export const activeEvents: EventItem[] = [];
+export const activeEvents: EventItem[] = [
+  events.find((e) => e.slug === "bollywood-bash")!,
+];
 
 export const featuredEvent = (events.find((e) => e.featured) ?? events[0])!;
 

@@ -164,7 +164,7 @@ export function FeaturedEvent() {
                 rel="noopener noreferrer"
                 className="bg-heat text-primary-foreground rounded-full px-8 py-4 text-center text-xs font-bold tracking-[0.22em] uppercase transition-transform duration-300 hover:scale-[1.03]"
               >
-                Get Tickets
+                Book Tickets
               </a>
             ) : (
               <Link
